@@ -6,7 +6,10 @@ library(tree)
 
 set.seed(1)
 # workspace
-setwd('/Users/Chris/Downloads/sl')
+# mac
+# setwd('/Users/Chris/Downloads/sl')
+# windows
+setwd('E:\\Chris\\Documents\\GitHub\\statistical-learning-term-project')
 
 # bank-full.csv
 data.bank = read.csv("bank/bank-full.csv", header = TRUE, sep = ";", quote = "\"")
@@ -84,6 +87,14 @@ coef(regfit.bwd, 8)
 
 # PCR & PLS?
 
-# Decision Tree?
+# Decision Tree
+
+tree.bank = tree(y ~ ., data = data.bank, subset = train)
+summary(tree.bank)
+# cross validation test
+cv.bank.tree = cv.tree(tree.bank, FUN = prune.misclass)
+prune.bank = prune.misclass(tree.bank, best = 4)
+tree.pred = predict(prune.bank, data.bank.test, type = "class")
+table(tree.pred, data.bank.test$y)
 
 # SVM?
